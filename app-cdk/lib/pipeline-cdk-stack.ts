@@ -22,8 +22,8 @@ export class PipelineStack extends Stack {
       const sourceOutput = new codepipeline.Artifact();
       const sourceAction = new codepipeline_actions.GitHubSourceAction({
         actionName: 'GitHub_Source',
-        owner: 'CharlyTango21', // Reemplaza con tu usuario de GitHub
-        repo: 'AWS_CI_CD_Workshop', // Reemplaza con el nombre de tu repositorio
+        owner: 'NicoFuentesAP', // Reemplaza con tu usuario de GitHub
+        repo: 'cicd_workshop', // Reemplaza con el nombre de tu repositorio
         branch: 'main', // Reemplaza con la rama que desees utilizar
         oauthToken: githubToken.secretValue,
         output: sourceOutput,

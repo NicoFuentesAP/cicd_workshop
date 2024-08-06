@@ -20,6 +20,7 @@ export class MyPipelineStack extends cdk.Stack {
     // Define los artefactos
     const sourceOutput = new codepipeline.Artifact();
     const buildOutput = new codepipeline.Artifact();
+    const unitTestOutput = new codepipeline.Artifact();
 
     // Define el pipeline
     const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
@@ -50,6 +51,18 @@ export class MyPipelineStack extends cdk.Stack {
           project: buildProject,
           input: sourceOutput,
           outputs: [buildOutput],
+        }),
+      ],
+    });
+
+    pipeline.addStage({
+      stageName: 'Code-Quality-Tetsing',
+      actions: [
+        new codepipeline_actions.CodeBuildAction({
+          actionName: 'Unit-Test',
+          project: buildProject,
+          input: sourceOutput,
+          outputs: [unitTestOutput],
         }),
       ],
     });

@@ -12,6 +12,4 @@ phases:
   build:
     commands:
       - echo run tests...
-      - npm run test
-      
-
+      - CI=true npm run test

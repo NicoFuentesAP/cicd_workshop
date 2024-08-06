@@ -4,29 +4,21 @@ phases:
   install:
     runtime-versions:
       nodejs: 14
+  pre_build:
     commands:
+      - cd ./my-app
       - echo Installing dependencies...
       - npm install
 
-  pre_build:
-    commands:
-      - echo Running tests...
-     # - npm test
-
   build:
     commands:
-      - echo Building the application...
-      - npm run build
+      - echo Running tests...
+      - CI=true npm run test
+     # - npm test
 
-  post_build:
-    commands:
-      - echo Build completed.
-
-artifacts:
-  files:
-    - '**/*'
-  base-directory: build
-
-cache:
-  paths:
-    - 'node_modules/**/*'
+  reports:
+    jest_reports:
+      files:
+        - 'test-report.xml'
+      file-format: 'JUNITXML'
+      base-directory: my-app

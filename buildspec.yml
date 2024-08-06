@@ -14,11 +14,3 @@ phases:
     commands:
       - echo Running tests...
       - CI=true npm run test
-     # - npm test
-
-  reports:
-    jest_reports:
-      files:
-        - 'test-report.xml'
-      file-format: 'JUNITXML'
-      base-directory: my-app

@@ -31,16 +31,19 @@ export class MyPipelineStack extends cdk.Stack {
     pipeline.addStage({
       stageName: 'Source',
       actions: [
-        new codepipeline_actions.CodeStarConnectionsSourceAction({
+        //new codepipeline_actions.CodeStarConnectionsSourceAction({
+        new codepipeline_actions.GitHubSourceAction({
+          //connectionArn: "arn:aws:codeconnections:us-east-1:381491863869:connection/984a99ef-18a1-4569-af1f-0d2039f3f377",
           actionName: 'GitHub_Source',
           owner: 'NicoFuentesAP', // Nombre de la organización
           repo: 'cicd_workshop',
           branch: 'main', // o la rama que prefieras
-          connectionArn: "arn:aws:codeconnections:us-east-1:381491863869:connection/984a99ef-18a1-4569-af1f-0d2039f3f377",
+          oauthToken: githubSecret.secretValueFromJson('token'),
           output: sourceOutput,
         }),
       ],
     });
+ 
 
     // Agrega la etapa de construcción
     /*pipeline.addStage({
@@ -56,7 +59,7 @@ export class MyPipelineStack extends cdk.Stack {
     });*/
 
     pipeline.addStage({
-      stageName: 'Code-Quality-Tetsing',
+      stageName: 'Code-Quality-Testing',
       actions: [
         new codepipeline_actions.CodeBuildAction({
           actionName: 'Unit-Test',

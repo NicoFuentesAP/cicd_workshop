@@ -74,7 +74,7 @@ export class MyPipelineStack extends cdk.Stack {
       actions: [
         new codepipeline_actions.CodeBuildAction({
           actionName: 'Unit-Test',
-          project: buildProject,
+          project: codeBuild,
           input: sourceOutput,
           outputs: [unitTestOutput],
         }),

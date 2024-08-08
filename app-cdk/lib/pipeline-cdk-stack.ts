@@ -34,6 +34,7 @@ export class MyPipelineStack extends cdk.Stack {
         privileged: true,
         computeType: codebuild.ComputeType.LARGE,
       },
+      buildSpec: codebuild.BuildSpec.fromSourceFilename('buildspec_test.yml'),
     });
 
 

@@ -19,13 +19,23 @@ export class MyPipelineStack extends cdk.Stack {
 
     // Define los artefactos
     const sourceOutput = new codepipeline.Artifact();
-    const buildOutput = new codepipeline.Artifact();
+    //const buildOutput = new codepipeline.Artifact();
     const unitTestOutput = new codepipeline.Artifact();
 
     // Define el pipeline
     const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
       pipelineName: 'MyPipeline',
+      crossAccountKeys: false,
     });
+
+    const codeBuild = new codebuild.PipelineProject(this, 'CodeBuild', {
+      environment: {
+        buildImage: codebuild.LinuxBuildImage.STANDARD_7_0,
+        privileged: true,
+        computeType: codebuild.ComputeType.LARGE,
+      },
+    });
+
 
     // Agrega la etapa de origen con GitHub
     pipeline.addStage({

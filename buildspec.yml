@@ -6,7 +6,7 @@ phases:
       nodejs: latest
   pre_build:
     commands:
-      - cd ./my-app
+      #- cd ./my-app
       - echo Installing npm packages...
       - npm install
   build:

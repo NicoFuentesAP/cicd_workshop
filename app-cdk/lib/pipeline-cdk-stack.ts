@@ -8,11 +8,12 @@ import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
+import * as ecsPatterns from 'aws-cdk-lib/aws-ecs-patterns';
 
 
 
 interface ConsumerProps extends StackProps {
-  ecrRepository: ecr.Repository;
+  ecrRepository: ecr.Repository,   fargateServiceTest: ecsPatterns.ApplicationLoadBalancedFargateService;
 }
 
 
@@ -79,6 +80,8 @@ export class MyPipelineStack extends cdk.Stack {
         }),
       ],
     });
+
+
 
     //crea Docker Image stage
     const dockerBuild = new codebuild.PipelineProject(this, 'DockerBuild', {
@@ -155,6 +158,17 @@ export class MyPipelineStack extends cdk.Stack {
 
     dockerBuild.addToRolePolicy(signerPolicy);
 
+    //Crea stage para depliegue en test env
+    pipeline.addStage({
+      stageName: 'Deploy-Test',
+      actions: [
+        new codepipeline_actions.EcsDeployAction({
+          actionName: 'Deploy-Fargate-Test',
+          service: props.fargateServiceTest.service,
+          input: dockerBuildOutput,
+        }),
+      ]
+    });
 
 
 
